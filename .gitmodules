@@ -1,0 +1,12 @@
+[submodule "process"]
+	path = process
+	url = http://git.correlibre.org/cogeinsas/EditorBPMN.git
+[submodule "uploadFiles/orfeocloud"]
+	path = uploadFiles/orfeocloud
+	url = http://git.correlibre.org/cogeinsas/OrfeoCloud.git
+[submodule "radiMail_2"]
+	path = radiMail_2
+	url = http://git.correlibre.org/cogeinsas/RadiMailClient.git
+[submodule "radiMail"]
+	path = radiMail
+	url = http://git.correlibre.org/cogeinsas/RadiMail.git

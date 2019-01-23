@@ -1,0 +1,229 @@
+<?php
+/** OrfeoGPL 3.8.2 
+ * Es una Version que mantiene Correlibre 
+ * @licencia gnu/gpl v 3.0 
+ *          Encontrara una copia de la misma en el directorio Instalacion o acceda a ella en : http://www.gnu.org/licenses/
+ *
+ * ---- NOTA ----
+ * La pagina login.php posee un iframe al final que conecta con Correlibre.org
+ * y envia informacion para poseer estadisticas de sitios en los cuales es instalado
+ * si ud desea informacion Adicional puede enviar un correo a yoapoyo@orfeogpl.org
+ * No se envian contrasenas de sus servicios.
+ * 
+ **
+**/
+
+// Ruta para las operaciones con archivos.
+// Esta es la ubicacion de nuestra carpeta orfeo 
+// ejm: linux    /var/www/miorfeo
+//      windows  c:\apache2.0\hpdocs\miorfeo
+$ABSOL_PATH              = '/var/www/html/orfeop7/';
+
+// Ruta del content de imagenes (Content o Bodega)
+// El content de archivos debe estar en un sitio en el cual no sea accesible por link a los archivos.
+// Si se sigue usando el content en el sistio de Orfeo esta debe estar con permisos restringidos...
+// Mejora en seguridad.
+
+
+// En un futuro proximo debera se asi : $CONTENT_PATH            = '/mnt/bodega/';
+
+$CONTENT_PATH            = $ABSOL_PATH.'bodega/';
+
+#$theme="tree";
+$theme="CorrelibreNavBarUp";
+
+// Ruta del directio de Smarty
+define ('SMARTY_DIR', $ABSOL_PATH . 'include/Smarty/libs/');
+define ('SMARTY_LIBRARY', SMARTY_DIR . 'Smarty.class.php');
+
+//Nombre de la base de datos de ORFEO
+$servicio = "orfeo";
+
+//Usuario de conexion con permisos de modificacion y creacion de objetos en la Base de datos.
+$usuario = "postgres";
+
+$usuario = "orfeo";
+
+
+//Contrasena del usuario anterior
+
+$contrasena= "1234";
+
+//Nombre o IP del servidor de BD. Opcional puerto, p.e. 120.0.0.1:1521
+$servidor = "localhost:5432";
+
+//Nombre o IP del servidor de BD. Opcional puerto, p.e. 120.0.0.1:1521
+
+$db = $servicio;
+
+//Tipo de Base de datos. Los valores validos son: postgres, oci8, mssql.
+$driver = "postgres";
+
+//Variable que indica el ambiente de trabajo, sus valores pueden ser  desarrollo,prueba,orfeo
+$ambiente = "correlibre";
+
+//Variable que indica el nombre del tema almacenado en la carpeta themes
+$theme = "CorrelibreNavBarUp";
+
+//Servidor que procesa los documentos
+$servProcDocs = "127.0.0.1:8000";
+
+//Acronimo de la empresa
+$entidad= "CORRELIBRE - ARGO PROJECT --";
+
+//Nombre de la EmpresaCD
+$entidad_largo= 'FUNDACION PARA EL DESARROLLO DEL CONOCIMIENTO LIBRE';  //Variable usada generalmente para los titulos en informes.
+
+
+// Imagenes para generar el PDF
+$headerRtaPdf = $ABSOL_PATH . '/img/'.$entidad.'.headerPDF.png';
+$footerRtaPdf = $ABSOL_PATH . '/img/'.$entidad.'.footerPDF.png';
+
+//Telefono o PBX de la empresa.
+$entidad_tel = 000000 ;
+
+//Direccion de la Empresa.
+$entidad_dir = "Calle ## No. ## - ## CIUDAD";
+$entidad_depsal = 0;  //Guarda el codigo de la dependencia de salida por defecto al radicar dcto de salida
+// 0 = Carpeta salida del radicador >0 = Redirecciona a la dependencia especificada
+
+
+/**
+* Se crea la variable $ADODB_PATH.
+* El Objetivo es que al independizar ADODB de ORFEO, este (ADODB) se pueda actualizar sin causar
+* traumatismos en el resto del codigo de ORFEO. En adelante se utilizara esta variable para hacer
+* referencia donde se encuentre ADODB
+*/
+$ADODB_PATH                    = $ABSOL_PATH."include/class/adodb";
+$ADODB_CACHE_DIR               = "/tmp";
+$MODULO_RADICACION_DOCS_ANEXOS = 1;
+
+/**
+ * Configuracion LDAP
+ *
+ 
+ Base DN
+DC=CNSC,DC=NET
+ 
+rootdn
+CN=ADMINISTRATOR,CN=USERS,DC=CNSC,DC=NET */
+//Nombre o IP del servidor de autenticacion LDAP
+$ldapServer     = '192.168.0.2';
+$ldapPort = 389;
+
+
+//Campo seleccionado (de las variables LDAP) para realizar la autenticacion.
+$campoBusqLDAP  = 'samaccountname';
+
+//cadena de busqueda 
+$cadenaBusqLDAP ='DC=xxxx,DC=gov,DC=co';
+
+/** Campo del usuario -  Para los campos de campoBusqLdap, usrLDAP, pwdLDP, cadenaBusqLDAP se usaran solo 
+  * si userBind=1 cuando es 0 se debe tener un usuario con permisos de busqueda y de acceso al directorio activo  
+  */
+
+//usuario de directorio activo
+$dominioLdap = "cnsc.net";
+$usrBind =1;
+//http://proyectos.correlibre.org:81/wiki/
+//Cadena de busqueda en el servidor.
+$userLdap="";
+$cadenaBusqLDAP = "CN=$userLdap,CN=USERS,DC=CNSC,DC=NET";
+
+//Si esta variable va en 1 mostrara en informacion geneal el menu de 
+//Rel. Procedimental, resolucion, sector, causal y detalle. en cero Omite este menu
+$menuAdicional  = 0;
+
+// Variables que se usan para la radicacion del correo electronio
+// Sitio en el que encontramos la libreria pear instalada
+$PEAR_PATH               = $ABSOL_PATH."pear/";
+
+$excluidosRR= ""; // Variable en la q se indican los codigos de los Tipos de Radicados que se excluiran o no se permitiran crear por medio de Respuesta en linea. Ejemplo $excluidosRR= "4,5,6,7,8,9";
+
+$servidorSmtp    = "smtp.office365.com";
+$puertoSmtp              = "25";
+$correoSaliente          = "usuarioEntriad@entidad.gov.co";
+$passwordCorreoSaliente  = "elpassworf";
+$correoSalienteRR          = $correoSaliente;         // Si el correo para respuesta Rapida es el mismo utilizado en notificaciones.
+$passwordCorreoSalienteRR  = $passwordCorreoSaliente; // Si el correo para respuesta Rapida es el mismo utilizado en notificaciones.
+$emailRespaldo="usaurioCopiaEmails@correlibre.org";   // Correo respaldo que se puede usar para enviar copia de los envios Realizados por RRapida. 
+$debugPHPMailer=1;  // 1 Sin Depuracion, 2 Muestra Depuracion.
+$SMTPSecure="tls";  // ssl, tls,
+
+// Servidor de Acceso al correo Electronico (radiMail)
+$server_name="outlook"; #gmail, exchange, outlook
+//$server_name="exchange";
+
+# Las siguientes variables de configuración de correo
+# sólo son necesaria si el $server_name="exchange"
+$servidor_mail           = "192.168.0.1";
+//$servidor_mail           = "outlook";
+$protocolo_mail          = "imap"; #imap, pop3
+$puerto_mail             = 993; #Según servidor defecto 143 | 110
+//$puerto_mail             = 993; #Según servidor defecto 143 | 110
+
+//Color de Fondo de OrfeoGPL
+$colorFondo              = "8cacc1";
+
+// Pais Empresa o Entidad
+$pais                    = "Colombia";
+
+// Correo Contacto o Administrador del Sistema
+$administrador           = "sunombre@dominio.com";
+// Directorio de estilos a Usar... Si no se establece una Ruta el sistema usara el que posee por Defecto en el directorio estilos.  orfeo.css para usarlo cree una carpeta con su personalizacion y luego copie el archivo orfeo.css y cambie sus colores.
+$ESTILOS_PATH            = "orfeo";
+
+// Variable que se usa para enviar correos al radicar o reasignar
+// Para configurar el correo electronico enviado se usa phpmailer que esta en include/ y se deben configurar
+// Los archivos en /conf/ El servidor
+// /conf/configPHPMailer.php Archivo con la configuracion de servidor y cuenta de correo.
+// MailInformado.html, MailRadicado.hrml y MailReasignado.html (Archivos con el cuerpo de los correos)
+$enviarMailMovimientos   = "1";
+
+// Datos que se usan en el formulario web disponible a los usuarios
+$depeRadicaFormularioWeb = 700;  // Es radicado en la Dependencia 900
+$usuaRecibeWeb           = 1;  // Usuario que Recibe los Documentos Web
+$secRadicaFormularioWeb  = 700;
+
+//Ruta Owncloud
+$ruta_owonclod='/var/www/html/owncloud/data/';
+$dir_owncloud="";
+//Dependencia territorial
+$depe_codi_territorial="";
+// Esta variable si esta en 1 no discrimina seris por dependencia, todas las deps veran la msma
+$seriesVistaTodos        = 1;
+
+// Variable de acceso a ORfeo Local
+$httpOrfeoLocal          = "http://localhost/orfeocore/";
+
+// Variable de acceso a ORfeo Remoto
+$httpOrfeoRemoto         = " Por el momento OrfeoGPL no tiene Acceso Por Web Externa.";
+
+// Variable de la Web Oficial de la Entidad.
+$httpWebOficial          = "http://www.correlibre.org";
+
+// Digitos de la Dependencia Minimo 1 maximo 5
+$digitosDependencia      = 3;
+
+
+ini_set('include_path', '.:'.$PEAR_PATH);
+
+// Variable para Activar Tramite conjunto, esta variable cumple la misma funcion de informados pero con mas responsabilidad
+$varTramiteConjunto     = 0;
+
+$apiFirmaDigital="";
+
+//Variable que define en que dirección se encuentra la ayuda.
+$url_ayuda ="http://proyectos.correlibre.org:81/wiki/";
+
+//Ruta servidor GIS
+//$servidorGis = "http://siim2.infometrika.net:8080/mtvSIG/";
+
+//Nombre o IP del servidor en el cual funciona el reporteador en birt
+$servidorBirt = "http://siim2.infometrika.net:8080/birt/frameset?__report=";
+
+//Variable que define en que direccion se encuentra la ayuda.
+$url_ayuda ="http://manual-siim2.infometrika.net";
+$archivado_requiere_exp=true;
+$reasigna_requiere_exp=false;
+?>

@@ -1,0 +1,24 @@
+
+<?php 
+require_once('nusoap/lib/nusoap.php');
+
+$wsdl="http://wiki.superservicios.gov.co:81/~wduarte/br3.6.0/webServices/servidor.php?wsdl"; 
+$params  = array("soap_version"=> SOAP_1_2,
+                "trace"=>1,
+                "exceptions"=>0,
+                );
+$client=new soapclient($wsdl, $params);  
+//$extension = explode(".",$archivo_name);
+//copy($archivo, "../bodega/tmp/visitas/".$archivo_name);
+
+$arregloDatos = array();
+
+$a = $client->call('darUsuario',$arregloDatos);
+var_dump($a);
+
+
+
+?>
+
+
+

@@ -1,0 +1,5 @@
+  <service name="AritmeticaServicio">
+    <port name="AritmeticaPort" binding="tns:AritmeticaBinding">
+      <soap:address location="http://localhost/orfeop7/webServiCes/servidor2.php" />
+    </port>
+  </service>
